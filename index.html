@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suit Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100 font-['Poppins']">
+
+<div id="game-container" class="bg-white p-40 rounded-md text-center">
+    <h1 class="text-2xl font-bold mb-4">Suit Game</h1>
+    <div id="score" class="text-2xl mt-4 flex justify-center"></div>
+    <div id="result" class="text-lg"></div>
+    <div class="flex mt-4 space-x-4 justify-center">
+        <button class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-700" onclick="playGame('rock')">Batu</button>
+        <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700" onclick="playGame('paper')">Kertas</button>
+        <button class="bg-red-500 text-white px-2 py-2 rounded hover:bg-red-700" onclick="playGame('scissors')">Gunting</button>
+    </div>
+</div>
+
+<script>
+    let playerScore = 0;
+    let computerScore = 0;
+
+    function playGame(playerChoice) {
+        const choices = ['rock', 'paper', 'scissors'];
+        const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+
+        const result = rules(playerChoice, computerChoice);
+
+        displayResult(playerChoice, computerChoice, result);
+        updateScore(result);
+        displayScore();
+    }
+
+    function rules(player, computer) {
+        if (player === computer) {
+            return 'draw';
+        } else if (
+            (player === 'rock' && computer === 'scissors') ||
+            (player === 'paper' && computer === 'rock') ||
+            (player === 'scissors' && computer === 'paper')
+        ) {
+            return 'win';
+        } else {
+            return 'lose';
+        }
+    }
+
+    function displayResult(player, computer, result) {
+        const resultContainer = document.getElementById('result');
+        resultContainer.textContent = `Player choose ${player}. Computer choose ${computer}. Result: ${result.toUpperCase()}`;
+    }
+
+    function updateScore(result) {
+        if (result === 'win') {
+            playerScore++;
+        } else if (result === 'lose') {
+            computerScore++;
+        }
+    }
+
+    function displayScore() {
+        const scoreContainer = document.getElementById('score');
+        scoreContainer.textContent = `Player: ${playerScore} | Computer: ${computerScore}`;
+    }
+</script>
+
+</body>
+</html>
